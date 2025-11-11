@@ -260,9 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ab047a70797aa449c13789aacf0b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  spawnRadius: 10
   player: {fileID: 695006229}
-  enemigo1: {fileID: 6879654896103587990, guid: 0814ad3196557924a9e96a79aeec9e77, type: 3}
-  enemigo2: {fileID: 6879654896103587990, guid: d748eec37beb69e48b00b19210894d15, type: 3}
+  oleadas:
+  - {fileID: 11400000, guid: 87b09023b01df3145951dff2ea5ec873, type: 2}
+  - {fileID: 11400000, guid: 0bef993e290729342991626ffb43ce6e, type: 2}
 --- !u!4 &100598263
 Transform:
   m_ObjectHideFlags: 0

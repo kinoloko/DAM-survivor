@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -6,21 +7,24 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// ///////////////////// Variables /////////////////////////
     /// </summary>
-    private float spawnTime = 2f;
-    private float spawnTime2 = 3f;
+    [Header("Configuración de Spawn")]
+    [SerializeField]
     private float spawnRadius = 10f;
+
+    [Header("GameObjects")]
     [SerializeField]
     private Transform player;
+
     [SerializeField]
-    private GameObject enemigo1;
-    [SerializeField]
-    private GameObject enemigo2;
+    private List<DataOleada> oleadas;
+
+
+    
     ////////////////////////////////////// Funciones Unity//////////////////
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(spawn(enemigo1, spawnTime));
-        StartCoroutine(spawn(enemigo2, spawnTime2));
+        GenerarOleadas();
     }
 
     // Update is called once per frame
@@ -28,17 +32,25 @@ public class EnemySpawner : MonoBehaviour
     {
 
     }
-    
+
     ///////////////////////////// Funciones Propias ////////////////////
-    
-    private IEnumerator spawn(GameObject enemigoSpawn, float tiempoSpawn)
+
+    private IEnumerator spawn(DataOleada oleada)
     {
         while (true)
         {
             Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPosition = player.position + new UnityEngine.Vector3(randomPoint.x, 0f, randomPoint.y);
-            Instantiate(enemigoSpawn, spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(tiempoSpawn);
+            Instantiate(oleada.EnemyPrefab, spawnPosition, Quaternion.identity);
+            yield return new WaitForSeconds(oleada.SpawnRate);
+        }
+    }
+    
+    public void GenerarOleadas()
+    {
+        foreach(DataOleada oleadaActual in oleadas)
+        {
+            StartCoroutine(spawn(oleadaActual));
         }
     }
 }
