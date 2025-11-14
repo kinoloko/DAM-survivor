@@ -7,4 +7,5 @@ public class DataOleada : ScriptableObject
     public GameObject EnemyPrefab;
     public float SpawnRate;
     public int CantidadDeEnemigos;
+    public float TiempoEntreOleadas;
 }

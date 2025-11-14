@@ -21,23 +21,16 @@ public class EnemySpawner : MonoBehaviour
 
     
     ////////////////////////////////////// Funciones Unity//////////////////
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GenerarOleadas();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        StartCoroutine(GenerarOleadas());
     }
 
     ///////////////////////////// Funciones Propias ////////////////////
 
     private IEnumerator spawn(DataOleada oleada)
     {
-        while (true)
+        for (int i = 0; i < oleada.CantidadDeEnemigos; i++)
         {
             Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
             Vector3 spawnPosition = player.position + new UnityEngine.Vector3(randomPoint.x, 0f, randomPoint.y);
@@ -46,10 +39,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
     
-    public void GenerarOleadas()
+    public IEnumerator GenerarOleadas()
     {
         foreach(DataOleada oleadaActual in oleadas)
         {
+            yield return new WaitForSeconds(oleadaActual.TiempoEntreOleadas);
             StartCoroutine(spawn(oleadaActual));
         }
     }

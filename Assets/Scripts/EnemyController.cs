@@ -5,15 +5,33 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// ////////////////////////////////// Variables ///////////////////////
     /// </summary>
+    //Referencia al jugador//
     private GameObject player;
-    private Transform objetivo;
-    [SerializeField]
-    private float velocidadMovimiento;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    //Info del SO//
+    public EnemyStats Stats;
+
+    //Stats propios//
+    private int maxHP;
+    private int currentHP;
+    private int damage;
+    private int defense;
+    private float speed;
+    
+    /// <summary>
+    /// /////////////////////////////////// Funciones Unity ///////////////////////////////
+    /// </summary>
+    void Awake()
+    {
+        maxHP = Stats.MaxHP;
+        currentHP = maxHP;
+        damage = Stats.Damage;
+        defense = Stats.Defense;
+        speed = Stats.Speed;
+    }
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        objetivo = player.transform;
     }
 
     // Update is called once per frame
@@ -22,12 +40,31 @@ public class EnemyController : MonoBehaviour
         if (player != null)
         {
             //Cojo la direccion
-            Vector3 direccion = objetivo.position - transform.position;
+            Vector3 direccion = player.transform.position - transform.position;
             direccion.Normalize();
 
             //Moverme hacia el jugador
-            transform.position += direccion * velocidadMovimiento * Time.deltaTime;
+            transform.position += direccion * speed * Time.deltaTime;
 
         }
+    }
+
+    public void Recibirdano(int danio)
+    {
+        int danioFinal = danio - defense;
+        if (danioFinal < 0)
+        {
+            danioFinal = 0;
+        }
+        currentHP -= danioFinal;
+        if (currentHP <= 0)
+        {
+            Morir();
+        }
+    }
+
+    private void Morir()
+    {
+        Destroy(gameObject);
     }
 }
