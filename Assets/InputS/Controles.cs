@@ -161,22 +161,13 @@ public partial class @Controles: IInputActionCollection2, IDisposable
             ]
         },
         {
-<<<<<<< Updated upstream
             ""name"": ""Camara"",
             ""id"": ""c4cecc24-4877-487e-83ec-5ac77eb6001f"",
-=======
-            ""name"": ""Camera"",
-            ""id"": ""ae12e094-3c8d-41f8-beb6-a629bcd6a72f"",
->>>>>>> Stashed changes
             ""actions"": [
                 {
                     ""name"": ""Zoom"",
                     ""type"": ""Value"",
-<<<<<<< Updated upstream
                     ""id"": ""a0af1d26-2887-4fc7-be0a-2b91ad8c1408"",
-=======
-                    ""id"": ""83b01ecf-9ce7-4ad2-b193-04cfc8955bb2"",
->>>>>>> Stashed changes
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -186,11 +177,7 @@ public partial class @Controles: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-<<<<<<< Updated upstream
                     ""id"": ""30eb686e-e7f9-4165-9664-b1e96b0a7299"",
-=======
-                    ""id"": ""d2f62372-0b8a-4f3c-8204-5d81fabc6608"",
->>>>>>> Stashed changes
                     ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -207,25 +194,15 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-<<<<<<< Updated upstream
         // Camara
         m_Camara = asset.FindActionMap("Camara", throwIfNotFound: true);
         m_Camara_Zoom = m_Camara.FindAction("Zoom", throwIfNotFound: true);
-=======
-        // Camera
-        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
-        m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
->>>>>>> Stashed changes
     }
 
     ~@Controles()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, Controles.Player.Disable() has not been called.");
-<<<<<<< Updated upstream
         UnityEngine.Debug.Assert(!m_Camara.enabled, "This will cause a leak and performance issues, Controles.Camara.Disable() has not been called.");
-=======
-        UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, Controles.Camera.Disable() has not been called.");
->>>>>>> Stashed changes
     }
 
     /// <summary>
@@ -394,7 +371,6 @@ public partial class @Controles: IInputActionCollection2, IDisposable
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
 
-<<<<<<< Updated upstream
     // Camara
     private readonly InputActionMap m_Camara;
     private List<ICamaraActions> m_CamaraActionsCallbackInterfaces = new List<ICamaraActions>();
@@ -403,23 +379,12 @@ public partial class @Controles: IInputActionCollection2, IDisposable
     /// Provides access to input actions defined in input action map "Camara".
     /// </summary>
     public struct CamaraActions
-=======
-    // Camera
-    private readonly InputActionMap m_Camera;
-    private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
-    private readonly InputAction m_Camera_Zoom;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Camera".
-    /// </summary>
-    public struct CameraActions
->>>>>>> Stashed changes
     {
         private @Controles m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-<<<<<<< Updated upstream
         public CamaraActions(@Controles wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "Camara/Zoom".
@@ -429,17 +394,6 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Camara; }
-=======
-        public CameraActions(@Controles wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Camera/Zoom".
-        /// </summary>
-        public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Camera; }
->>>>>>> Stashed changes
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -447,15 +401,9 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-<<<<<<< Updated upstream
         /// Implicitly converts an <see ref="CamaraActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
         public static implicit operator InputActionMap(CamaraActions set) { return set.Get(); }
-=======
-        /// Implicitly converts an <see ref="CameraActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
->>>>>>> Stashed changes
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -463,19 +411,11 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-<<<<<<< Updated upstream
         /// <seealso cref="CamaraActions" />
         public void AddCallbacks(ICamaraActions instance)
         {
             if (instance == null || m_Wrapper.m_CamaraActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_CamaraActionsCallbackInterfaces.Add(instance);
-=======
-        /// <seealso cref="CameraActions" />
-        public void AddCallbacks(ICameraActions instance)
-        {
-            if (instance == null || m_Wrapper.m_CameraActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_CameraActionsCallbackInterfaces.Add(instance);
->>>>>>> Stashed changes
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
@@ -487,13 +427,8 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-<<<<<<< Updated upstream
         /// <seealso cref="CamaraActions" />
         private void UnregisterCallbacks(ICamaraActions instance)
-=======
-        /// <seealso cref="CameraActions" />
-        private void UnregisterCallbacks(ICameraActions instance)
->>>>>>> Stashed changes
         {
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
@@ -501,21 +436,12 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-<<<<<<< Updated upstream
         /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />.
         /// </summary>
         /// <seealso cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />
         public void RemoveCallbacks(ICamaraActions instance)
         {
             if (m_Wrapper.m_CamaraActionsCallbackInterfaces.Remove(instance))
-=======
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CameraActions.UnregisterCallbacks(ICameraActions)" />.
-        /// </summary>
-        /// <seealso cref="CameraActions.UnregisterCallbacks(ICameraActions)" />
-        public void RemoveCallbacks(ICameraActions instance)
-        {
-            if (m_Wrapper.m_CameraActionsCallbackInterfaces.Remove(instance))
->>>>>>> Stashed changes
                 UnregisterCallbacks(instance);
         }
 
@@ -525,7 +451,6 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-<<<<<<< Updated upstream
         /// <seealso cref="CamaraActions.AddCallbacks(ICamaraActions)" />
         /// <seealso cref="CamaraActions.RemoveCallbacks(ICamaraActions)" />
         /// <seealso cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />
@@ -534,29 +459,13 @@ public partial class @Controles: IInputActionCollection2, IDisposable
             foreach (var item in m_Wrapper.m_CamaraActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
             m_Wrapper.m_CamaraActionsCallbackInterfaces.Clear();
-=======
-        /// <seealso cref="CameraActions.AddCallbacks(ICameraActions)" />
-        /// <seealso cref="CameraActions.RemoveCallbacks(ICameraActions)" />
-        /// <seealso cref="CameraActions.UnregisterCallbacks(ICameraActions)" />
-        public void SetCallbacks(ICameraActions instance)
-        {
-            foreach (var item in m_Wrapper.m_CameraActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_CameraActionsCallbackInterfaces.Clear();
->>>>>>> Stashed changes
             AddCallbacks(instance);
         }
     }
     /// <summary>
-<<<<<<< Updated upstream
     /// Provides a new <see cref="CamaraActions" /> instance referencing this action map.
     /// </summary>
     public CamaraActions @Camara => new CamaraActions(this);
-=======
-    /// Provides a new <see cref="CameraActions" /> instance referencing this action map.
-    /// </summary>
-    public CameraActions @Camera => new CameraActions(this);
->>>>>>> Stashed changes
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -573,19 +482,11 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
     }
     /// <summary>
-<<<<<<< Updated upstream
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camara" which allows adding and removing callbacks.
     /// </summary>
     /// <seealso cref="CamaraActions.AddCallbacks(ICamaraActions)" />
     /// <seealso cref="CamaraActions.RemoveCallbacks(ICamaraActions)" />
     public interface ICamaraActions
-=======
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="CameraActions.AddCallbacks(ICameraActions)" />
-    /// <seealso cref="CameraActions.RemoveCallbacks(ICameraActions)" />
-    public interface ICameraActions
->>>>>>> Stashed changes
     {
         /// <summary>
         /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
