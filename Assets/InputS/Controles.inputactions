@@ -75,13 +75,22 @@
             ]
         },
         {
+<<<<<<< Updated upstream
             "name": "Camara",
             "id": "c4cecc24-4877-487e-83ec-5ac77eb6001f",
+=======
+            "name": "Camera",
+            "id": "ae12e094-3c8d-41f8-beb6-a629bcd6a72f",
+>>>>>>> Stashed changes
             "actions": [
                 {
                     "name": "Zoom",
                     "type": "Value",
+<<<<<<< Updated upstream
                     "id": "a0af1d26-2887-4fc7-be0a-2b91ad8c1408",
+=======
+                    "id": "83b01ecf-9ce7-4ad2-b193-04cfc8955bb2",
+>>>>>>> Stashed changes
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -91,7 +100,11 @@
             "bindings": [
                 {
                     "name": "",
+<<<<<<< Updated upstream
                     "id": "30eb686e-e7f9-4165-9664-b1e96b0a7299",
+=======
+                    "id": "d2f62372-0b8a-4f3c-8204-5d81fabc6608",
+>>>>>>> Stashed changes
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
