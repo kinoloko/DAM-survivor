@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI; // ¡Necesario para usar NavMeshAgent!
 
 public class EnemyController : MonoBehaviour
 {
@@ -7,27 +8,93 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private GameObject player;
     private Transform objetivo;
-    [SerializeField]
-    private float velocidadMovimiento;
+
+    [Header("Estadísticas del Enemigo")]
+    public EnemyStats estadisticas;
+    private int currentHealth;
+    private int damage;
+    private int defense;
+    private float speed;
+
+    public GameObject ExpOrbPrefab;
+
+    // NUEVA VARIABLE
+    private NavMeshAgent agente;
+
+    /// <summary>
+    /// //////////////////////////////// Funciones Unity //////////////////////
+    /// </summary>
+    private void Awake()
+    {
+        // Inicializamos las estadísticas del enemigo desde el ScriptableObject
+        currentHealth = estadisticas.health;
+        damage = estadisticas.damage;
+        defense = estadisticas.defense;
+        speed = estadisticas.speed;
+
+        // Obtenemos el componente del Agente
+        agente = GetComponent<NavMeshAgent>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Se asegura de que las estadísticas estén asignadas
+        if (estadisticas == null)
+        {
+            Debug.LogError("¡Error! No se han asignado las estadísticas del enemigo en " + this.gameObject.name);
+        }
+
+        // Encuentra al jugador en la escena
         player = GameObject.FindGameObjectWithTag("Player");
-        objetivo = player.transform;
+        if (player != null) objetivo = player.transform;
+        
+        // CONFIGURAMOS AL AGENTE CON NUESTROS DATOS
+        if (agente != null && estadisticas != null)
+        {
+            agente.speed = estadisticas.speed; // ¡El agente usará la velocidad de la ficha!
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
+        // Solo si tenemos objetivo y agente
+        if (objetivo != null && agente != null)
         {
-            //Cojo la direccion
-            Vector3 direccion = objetivo.position - transform.position;
-            direccion.Normalize();
-
-            //Moverme hacia el jugador
-            transform.position += direccion * velocidadMovimiento * Time.deltaTime;
-
+            // Le decimos al Agente: "Ve a donde está el jugador ahora mismo"
+            // El agente calculará la ruta más corta esquivando obstáculos.
+            agente.SetDestination(objetivo.position);
         }
+        
+        // ¡BORRA TODO EL CÓDIGO VIEJO DE MOVIMIENTO MANUAL!
+        // (Vector3 direccion = ... transform.position += ...)
+    }
+
+    /////////////////////////////////////////////////// Funciones Propias ////////////////////
+    public void RecibirDano(int cantidadDano)
+    {
+        // (En el futuro, aquí podríamos usar 'estadisticas.defensa' para reducir el daño)
+        currentHealth -= cantidadDano;
+
+        // Comprobamos si el enemigo ha muerto
+        if (currentHealth <= 0)
+        {
+            Morir();
+        }
+    }
+
+    private void Morir()
+    {
+        if (ExpOrbPrefab != null)
+        {
+            // Creamos el orbe en la misma posición donde está el enemigo ahora mismo.
+            // Quaternion.identity porque los orbes no necesitan rotación especial.
+            Instantiate(ExpOrbPrefab, transform.position, Quaternion.identity);
+        }
+
+        // De momento, solo avisamos y destruimos el objeto
+        Debug.Log("¡Enemigo " + this.gameObject.name + " derrotado!");
+        Destroy(this.gameObject);
     }
 }

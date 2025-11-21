@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7011806214589915532}
   - component: {fileID: 8259673202921477698}
   - component: {fileID: 2463040625489981934}
+  - component: {fileID: 5332290198130986205}
   m_Layer: 0
   m_Name: Enemy 1
   m_TagString: Untagged
@@ -126,4 +127,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c52b35dc402eda4fbdbc2c10604d1e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  velocidadMovimiento: 3
+  estadisticas: {fileID: 11400000, guid: 1836317018cf0164dae1e053ff5e1244, type: 2}
+  ExpOrbPrefab: {fileID: 2965314438830156994, guid: f577220a24e1f6541aec57acb41f642f, type: 3}
+--- !u!195 &5332290198130986205
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879654896103587990}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GenerarOleadas();
+        StartCoroutine(GenerarOleadas());
     }
 
     // Update is called once per frame
@@ -35,21 +35,29 @@ public class EnemySpawner : MonoBehaviour
 
     ///////////////////////////// Funciones Propias ////////////////////
 
-    private IEnumerator spawn(DataOleada oleada)
+     private IEnumerator spawn(DataOleada oleada)
     {
-        while (true)
+        // ¡CAMBIO 1: Hemos cambiado 'while(true)' por un bucle 'for'!
+        // Ahora el bucle respeta la 'CantidadDeEnemigos' que has definido en el Scriptable Object.
+        for (int i = 0; i < oleada.CantidadDeEnemigos; i++)
         {
             Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
-            Vector3 spawnPosition = player.position + new UnityEngine.Vector3(randomPoint.x, 0f, randomPoint.y);
+            Vector3 spawnPosition = player.position + new Vector3(randomPoint.x, 0f, randomPoint.y);
             Instantiate(oleada.EnemyPrefab, spawnPosition, Quaternion.identity);
+            
+            // Esta pausa es perfecta.
             yield return new WaitForSeconds(oleada.SpawnRate);
         }
+        // Cuando el bucle 'for' termina, la coroutine finaliza por sí misma.
+        // ¡Ya no es infinita!
     }
     
-    public void GenerarOleadas()
+    
+    public IEnumerator GenerarOleadas()
     {
         foreach(DataOleada oleadaActual in oleadas)
         {
+            yield return new WaitForSeconds(oleadaActual.TiempoEntreOleadas);
             StartCoroutine(spawn(oleadaActual));
         }
     }

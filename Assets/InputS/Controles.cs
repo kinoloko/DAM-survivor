@@ -159,6 +159,34 @@ public partial class @Controles: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Camara"",
+            ""id"": ""c4cecc24-4877-487e-83ec-5ac77eb6001f"",
+            ""actions"": [
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""a0af1d26-2887-4fc7-be0a-2b91ad8c1408"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""30eb686e-e7f9-4165-9664-b1e96b0a7299"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -166,11 +194,15 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        // Camara
+        m_Camara = asset.FindActionMap("Camara", throwIfNotFound: true);
+        m_Camara_Zoom = m_Camara.FindAction("Zoom", throwIfNotFound: true);
     }
 
     ~@Controles()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, Controles.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Camara.enabled, "This will cause a leak and performance issues, Controles.Camara.Disable() has not been called.");
     }
 
     /// <summary>
@@ -338,6 +370,102 @@ public partial class @Controles: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Camara
+    private readonly InputActionMap m_Camara;
+    private List<ICamaraActions> m_CamaraActionsCallbackInterfaces = new List<ICamaraActions>();
+    private readonly InputAction m_Camara_Zoom;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Camara".
+    /// </summary>
+    public struct CamaraActions
+    {
+        private @Controles m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public CamaraActions(@Controles wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Camara/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Camara_Zoom;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Camara; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="CamaraActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(CamaraActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="CamaraActions" />
+        public void AddCallbacks(ICamaraActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CamaraActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CamaraActionsCallbackInterfaces.Add(instance);
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="CamaraActions" />
+        private void UnregisterCallbacks(ICamaraActions instance)
+        {
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />.
+        /// </summary>
+        /// <seealso cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />
+        public void RemoveCallbacks(ICamaraActions instance)
+        {
+            if (m_Wrapper.m_CamaraActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="CamaraActions.AddCallbacks(ICamaraActions)" />
+        /// <seealso cref="CamaraActions.RemoveCallbacks(ICamaraActions)" />
+        /// <seealso cref="CamaraActions.UnregisterCallbacks(ICamaraActions)" />
+        public void SetCallbacks(ICamaraActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CamaraActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CamaraActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="CamaraActions" /> instance referencing this action map.
+    /// </summary>
+    public CamaraActions @Camara => new CamaraActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -352,5 +480,20 @@ public partial class @Controles: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camara" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="CamaraActions.AddCallbacks(ICamaraActions)" />
+    /// <seealso cref="CamaraActions.RemoveCallbacks(ICamaraActions)" />
+    public interface ICamaraActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
     }
 }
